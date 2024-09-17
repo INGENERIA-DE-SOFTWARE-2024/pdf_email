@@ -2,42 +2,57 @@
 
 namespace Controllers;
 
-use Model\ActiveRecord;
-use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
+use Model\ActiveRecord;
 use MVC\Router;
 
-class ReporteController
-{
+class ReporteController {
     public static function pdf(Router $router)
     {
+
         $mpdf = new Mpdf(
             [
-                "default_font_size" => "12",
-                "default_font" => "arial",
-                "orientation" => "P",
-                "margin_top" => "30",
-                "format" => "Letter"
+                'default_font_size' => '12',
+                'default_font' => 'arial',
+                'orientation' => 'p',
+                'margin_top' => '30',
+                'format' => 'Letter',
+                //'format' => [35,45],
             ]
-        );
-        // $productos = ActiveRecord::fetchArray("SELECT * FROM productos");
-        // $html = $router->load('pdf/reporte', [
-        //    'productos' => $productos
-        //  ]);
-        $html = $router->load('pdf/reporte'); //Se agreagó esta línea ya que el pdf se quiere sin conssulta a la bd
-        $mpdf->AliasNbPages('[pagetotal]');
-        $css = $router->load('pdf/styles');
-        $css = file_get_contents(__DIR__ . '/../views/pdf/styles.css');
-        $header = $router->load('pdf/header');
-        $footer = $router->load('pdf/footer');
+            );
+
+
+        $html = $router->load('pdf/reporte',[
+
+        ]);
+
+        $header = $router->load('pdf/header', []);
+        $footer = $router->load('pdf/footer', []);
+        //$css = $router->load('pdf/style', []);
+
         $mpdf->SetHTMLHeader($header);
         $mpdf->SetHTMLFooter($footer);
-        $mpdf->WriteHTML($css, HTMLParserMode::HEADER_CSS);
-        $mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
-        $mpdf->AddPage("L");
-        // $mpdf->SetProtection();
-        $archivo = $mpdf->Output("reporte.pdf", "I");
-        echo base64_encode($archivo);
+
+        //$mpdf->WriteHTML($css);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+
+
+        
+        // Define la ruta de la carpeta 'temp' en el directorio 'public'
+        $publicDir = __DIR__ . '../../public/temp'; // Ajusta según la estructura de tu proyecto
+        $tempDir = $publicDir . '/temp/';
+        $fileName = 'reporte.pdf';
+        $filePath = $tempDir . $fileName;
+
+        // Asegúrate de que la carpeta 'temp' exista
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir, 0777, true);
+        }
+
+        // Guarda el PDF en el archivo especificado
+        $mpdf->Output($filePath,'F');
+
     }
 
 }

@@ -1,1 +1,1 @@
-<p>RESERVADO NO.</p>
+<p style="font-size: 18px; font-weight: bold; color: #004d00; margin-top: 50px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-decoration: underline;">EJÉRCITO DE GUATEMALA</p>

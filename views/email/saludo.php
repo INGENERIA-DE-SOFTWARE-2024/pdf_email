@@ -7,7 +7,7 @@
     font-weight: bold; 
     text-transform: uppercase; 
     letter-spacing: 2px; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Aplica una sombra al texto */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-top: 20px; 
     padding-bottom: 10px;
     border-bottom: 2px solid green; 

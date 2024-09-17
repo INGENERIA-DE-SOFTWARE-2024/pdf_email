@@ -29,15 +29,28 @@ class EmailController
             $email->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $email->Port = $_ENV['MAIL_PORT'];
             $email->CharSet = "UTF-8";
-            $email->AddReplyTo($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);                            //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $email->AddReplyTo($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);                            //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
             $email->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
             $email->isHTML();
+
+
+            // Usa ruta absoluta desde la raíz del proyecto para el archivo PDF
+            $projectRoot = dirname(__DIR__, 1); // Ajusta si es necesario
+            $filePath = $projectRoot . '/public/temp/temp/reporte.pdf';
+
+            if (!file_exists($filePath)) {
+                throw new Exception('Archivo no encontrado: ' . $filePath);
+            }
+
+            $email->addAttachment($filePath);
+
+
             $imagePath = __DIR__ . '/../public/images/cit.png';
             $email->AddEmbeddedImage($imagePath, 'hola', 'cit.png');
             $html = $router->load('email/saludo');
             $email->Body = $html;
             $email->Subject = "Prueba de correo";
-            $email->addAddress('joseromaldo.1997@gmail.com', 'JOSE MALDONADO');
+            $email->addAddress('afuentesj1@miumg.edu.gt', 'ABNER FUENTES');
 
             $email->send();
 
