@@ -50,7 +50,7 @@ class EmailController
             $html = $router->load('email/saludo');
             $email->Body = $html;
             $email->Subject = "Prueba de correo";
-            $email->addAddress('afuentesj1@miumg.edu.gt', 'ABNER FUENTES');
+            $email->addAddress('abnerfuentes05@gmail.com', 'ABNER FUENTES');
 
             $email->send();
 
